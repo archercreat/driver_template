@@ -9,11 +9,16 @@ find_package(WDK REQUIRED)
 # Treat warnings as errors
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
 
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*)
+file(GLOB_RECURSE INCLUDES CONFIGURE_DEPENDS include/*)
+
 # Create driver
 wdk_add_driver(driver 
-	"src/main.cpp"
-	"src/example.asm"
+	${SOURCES}
+	${INCLUDES}
 )
+
+source_group(TREE ${PROJECT_SOURCE_DIR} FILES ${SOURCES} ${INCLUDES})
 
 # Enable std20
 target_compile_features(driver PRIVATE
